@@ -263,23 +263,22 @@ int main() {
             bool car_left = false;
             bool car_righ = false;
 
-						//find ref_v to use
+						// determine the lane the cars are driving in
             for ( int i = 0; i < sensor_fusion.size(); i++ ) {
                 float d = sensor_fusion[i][6];
                 int car_lane = -1;
-                // car is in my lane
+                // car is in first lane
                 if ( d > 0 && d < 4 ) {
                   car_lane = 0;
                 } else if ( d > 4 && d < 8 ) {
-                  // car is in lane next to us
+                  // car is in second lane
                   car_lane = 1;
                 } else if ( d > 8 && d < 12 ) {
-                  // car is in 2nd lane next to us
+                  // car is in third lane
                   car_lane = 2;
                 }
-                if (car_lane < 0) {
-                  continue;
-                }
+
+                
                 // calculate car speed.
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
@@ -288,34 +287,49 @@ int main() {
                 // Estimate car s position after executing previous trajectory.
                 check_car_s += ((double)prev_size*0.02*check_speed);
 
+                // determine if car is left, right or ahead of us
+
                 if ( car_lane == lane ) {
                   // if there is a car in the same lane as we are check the distance
-                  car_ahead |= check_car_s > car_s && check_car_s - car_s < 30;
+                  if (check_car_s > car_s) && (check_car_s - car_s < 30)
+                  {
+                    car_ahead = True;
+                  }
+                  
                 } else if ( car_lane - lane == -1 ) {
                   // there is a car in the left lane
-                  car_left |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+                  if (car_s - 30 < check_car_s) && (car_s + 30 > check_car_s)
+                  {
+                    car_left = True;
+                  }
+                  
                 } else if ( car_lane - lane == 1 ) {
-                  // Car right
-                  car_right |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+                  // there is a car in the right lane
+                  if (car_s - 30 < check_car_s) && (car_s + 30 > check_car_s)
+                  {
+                    car_right = True;
+                  }
+                  
                 }
             }
 
-            // Behavior : Let's see what to do.
             double speed_diff = 0;
-            const double MAX_SPEED = 49.5;
+            const double MAX_SPEED = 49.5;  // slightly below the maximum allowed speed
             const double MAX_ACC = .224;
-            if ( car_ahead ) { // Car ahead
+
+            if ( car_ahead ) { 
               if ( !car_left && lane > 0 ) {
                 // if there is no car in the lane to our left, switch lane
                 lane--; 
-              } else if ( !car_right && lane != 2 ){
-                // f there is no car in the lane to our right, switch lane
+              } else if ( !car_right && lane < 2 ){
+                // if there is no car in the lane to our right, switch lane
                 lane++; 
               } else {
                 speed_diff -= MAX_ACC;
               }
             } else {
-              if ( lane != 1 ) { 
+              if ( lane != 1 ) 
+              { 
                 if ( ( lane == 0 && !car_right ) || ( lane == 2 && !car_left ) ) {
                   lane = 1; // if we are not in the center lane change back to middle lane
                 }
@@ -332,7 +346,6 @@ int main() {
             double ref_y = car_y;
             double ref_yaw = deg2rad(car_yaw);
 
-            // Do I have have previous points
             if ( prev_size < 2 ) {
                 // There are not too many...
                 double prev_car_x = car_x - cos(car_yaw);
