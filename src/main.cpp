@@ -266,7 +266,9 @@ int main() {
 						// determine the lane the cars are driving in
             for ( int i = 0; i < sensor_fusion.size(); i++ ) {
                 float d = sensor_fusion[i][6];
-                int car_lane = -1;
+                int car_lane;
+
+                // every lane is about 4 meters wide
                 // car is in first lane
                 if ( d > 0 && d < 4 ) {
                   car_lane = 0;
@@ -279,7 +281,7 @@ int main() {
                 }
 
                 
-                // calculate car speed.
+                // calculate speed
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx + vy*vy);
@@ -296,14 +298,14 @@ int main() {
                     is_car_ahead = true;
                   }
                   
-                } else if ( car_lane - lane == -1 ) {
+                } else if ( car_lane - lane < 0 ) {
                   // there is a car in the left lane
                   if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
                     is_car_left = true;
                   }
                   
-                } else if ( car_lane - lane == 1 ) {
+                } else {
                   // there is a car in the right lane
                   if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
