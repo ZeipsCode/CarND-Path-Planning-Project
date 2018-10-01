@@ -103,8 +103,8 @@ Please (do your best to) stick to [Google's C++ style guide](https://google.gith
 
 ## Reflection
 
-The code provided in the Project Q&A was already enough to get the car going, following a path, avoid exceeding the maximum acceleration and avoiding hitting other cars. I upgraded that code to get the car to change lanes if the sensors detect an obstacle in our way, like a slow moving car. To do a safe lane change the car has to check the available sensor data to be certain, that it is safe to change lanes, which means there can't be any cars driving in our desired path.
+The code provided in the Project Q&A was already enough to get the car going, following a path, avoid exceeding the maximum acceleration and avoiding hitting other cars. I upgraded that code to get the car to change lanes if the sensors detect an obstacle in our planned way, like a slow moving car. To do a safe lane change the car has to check the available sensor data to be certain, that it is safe to change lanes, which means there can't be any cars driving in our desired path.
 
-Using the sensor data the car can determine, if there is another car in a given perimeter, which lane it is in, where it will likely be in the near future and most importantly the probable distance to our car. By determining these points, the car can make a decision to stay in the lane, or change to an adjacent lane, if it is more efficient.
+As a first step i determine in which of the three lanes every detected car is currently driving. If there is a car in my planned path, i check the distance to it and every other car. If there is no car within a 30 meter diameter in an adjacent lane, i switch to that lane. 
 
-Another important aspect is the trajectory planning. The calculation happens based on the current speed, the planned behaviour and the remaining waypoints of the preceding trajectory.
+If there is no car in our lane, we can switch back to the middle lane. The middle lane is always the preferred option, so the car will only leave it to avoid slower cars.
