@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/src/main.cpp" "/media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/build/CMakeFiles/path_planning.dir/src/main.cpp.o"
+  "/media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/src/main.cpp" "/media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/build/CMakeFiles/path_planning.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

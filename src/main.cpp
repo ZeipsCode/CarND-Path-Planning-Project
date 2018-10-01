@@ -261,7 +261,7 @@ int main() {
             // Prediction : Analysing other cars positions.
             bool car_ahead = false;
             bool car_left = false;
-            bool car_righ = false;
+            bool car_right = false;
 
 						// determine the lane the cars are driving in
             for ( int i = 0; i < sensor_fusion.size(); i++ ) {
@@ -291,23 +291,23 @@ int main() {
 
                 if ( car_lane == lane ) {
                   // if there is a car in the same lane as we are check the distance
-                  if (check_car_s > car_s) && (check_car_s - car_s < 30)
+                  if (check_car_s > car_s && check_car_s - car_s < 30)
                   {
-                    car_ahead = True;
+                    car_ahead = true;
                   }
                   
                 } else if ( car_lane - lane == -1 ) {
                   // there is a car in the left lane
-                  if (car_s - 30 < check_car_s) && (car_s + 30 > check_car_s)
+                  if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
-                    car_left = True;
+                    car_left = true;
                   }
                   
                 } else if ( car_lane - lane == 1 ) {
                   // there is a car in the right lane
-                  if (car_s - 30 < check_car_s) && (car_s + 30 > check_car_s)
+                  if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
-                    car_right = True;
+                    car_right = true;
                   }
                   
                 }

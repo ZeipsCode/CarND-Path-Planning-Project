@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project
+CMAKE_SOURCE_DIR = /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/build
+CMAKE_BINARY_DIR = /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/build/CMakeFiles /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/build/CMakeFiles /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/Udacity/CarND-Path-Planning-Project/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/zpr/5aa7062e-a1a2-4b29-85cb-5756318d57ee/CarND-Path-Planning-Project/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
