@@ -258,10 +258,10 @@ int main() {
               car_s = end_path_s;
             }
 
-            // Prediction : Analysing other cars positions.
-            bool car_ahead = false;
-            bool car_left = false;
-            bool car_right = false;
+            // Some flags for determining the next steps
+            bool is_car_ahead = false;
+            bool is_car_left = false;
+            bool is_car_right = false;
 
 						// determine the lane the cars are driving in
             for ( int i = 0; i < sensor_fusion.size(); i++ ) {
@@ -293,21 +293,21 @@ int main() {
                   // if there is a car in the same lane as we are check the distance
                   if (check_car_s > car_s && check_car_s - car_s < 30)
                   {
-                    car_ahead = true;
+                    is_car_ahead = true;
                   }
                   
                 } else if ( car_lane - lane == -1 ) {
                   // there is a car in the left lane
                   if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
-                    car_left = true;
+                    is_car_left = true;
                   }
                   
                 } else if ( car_lane - lane == 1 ) {
                   // there is a car in the right lane
                   if (car_s - 30 < check_car_s && car_s + 30 > check_car_s)
                   {
-                    car_right = true;
+                    is_car_right = true;
                   }
                   
                 }
@@ -317,11 +317,11 @@ int main() {
             const double MAX_SPEED = 49.5;  // slightly below the maximum allowed speed
             const double MAX_ACC = .224;
 
-            if ( car_ahead ) { 
-              if ( !car_left && lane > 0 ) {
+            if ( is_car_ahead ) { 
+              if ( !is_car_left && lane > 0 ) {
                 // if there is no car in the lane to our left, switch lane
                 lane--; 
-              } else if ( !car_right && lane < 2 ){
+              } else if ( !is_car_right && lane < 2 ){
                 // if there is no car in the lane to our right, switch lane
                 lane++; 
               } else {
@@ -330,7 +330,7 @@ int main() {
             } else {
               if ( lane != 1 ) 
               { 
-                if ( ( lane == 0 && !car_right ) || ( lane == 2 && !car_left ) ) {
+                if ( ( lane == 0 && !is_car_right ) || ( lane == 2 && !is_car_left ) ) {
                   lane = 1; // if we are not in the center lane change back to middle lane
                 }
               }
