@@ -40,11 +40,12 @@ double distance(double x1, double y1, double x2, double y2)
 {
 	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
+
 int ClosestWaypoint(double x, double y, const vector<double> &maps_x, const vector<double> &maps_y)
 {
 
-	double closestLen = 100000; //large number
-	int closestWaypoint = 0;
+	double closestLen = 100000;  // just some large number as initialization
+	int closestWaypoint = 0;     // zero as starting point
 
 	for(int i = 0; i < maps_x.size(); i++)
 	{
@@ -79,10 +80,10 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
   if(angle > pi()/4)
   {
     closestWaypoint++;
-  if (closestWaypoint == maps_x.size())
-  {
-    closestWaypoint = 0;
-  }
+    if (closestWaypoint == maps_x.size())
+    {
+      closestWaypoint = 0;
+    }
   }
 
   return closestWaypoint;
@@ -202,7 +203,7 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
 
-  // Car's lane. Starting at middle lane.
+  // lanes are indexed. Starting point should be in middle lane
   int lane = 1;
 
   // Reference velocity.
@@ -266,18 +267,20 @@ int main() {
             for ( int i = 0; i < sensor_fusion.size(); i++ ) {
                 float d = sensor_fusion[i][6];
                 int car_lane = -1;
-                // is it on the same lane we are
+                // car is in my lane
                 if ( d > 0 && d < 4 ) {
                   car_lane = 0;
                 } else if ( d > 4 && d < 8 ) {
+                  // car is in lane next to us
                   car_lane = 1;
                 } else if ( d > 8 && d < 12 ) {
+                  // car is in 2nd lane next to us
                   car_lane = 2;
                 }
                 if (car_lane < 0) {
                   continue;
                 }
-                // Find car speed.
+                // calculate car speed.
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx + vy*vy);
@@ -286,14 +289,14 @@ int main() {
                 check_car_s += ((double)prev_size*0.02*check_speed);
 
                 if ( car_lane == lane ) {
-                  // Car in our lane.
+                  // if there is a car in the same lane as we are check the distance
                   car_ahead |= check_car_s > car_s && check_car_s - car_s < 30;
                 } else if ( car_lane - lane == -1 ) {
-                  // Car left
+                  // there is a car in the left lane
                   car_left |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
                 } else if ( car_lane - lane == 1 ) {
                   // Car right
-                  car_righ |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+                  car_right |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
                 }
             }
 
@@ -303,18 +306,18 @@ int main() {
             const double MAX_ACC = .224;
             if ( car_ahead ) { // Car ahead
               if ( !car_left && lane > 0 ) {
-                // if there is no car left and there is a left lane.
-                lane--; // Change lane left.
-              } else if ( !car_righ && lane != 2 ){
-                // if there is no car right and there is a right lane.
-                lane++; // Change lane right.
+                // if there is no car in the lane to our left, switch lane
+                lane--; 
+              } else if ( !car_right && lane != 2 ){
+                // f there is no car in the lane to our right, switch lane
+                lane++; 
               } else {
                 speed_diff -= MAX_ACC;
               }
             } else {
-              if ( lane != 1 ) { // if we are not on the center lane.
-                if ( ( lane == 0 && !car_righ ) || ( lane == 2 && !car_left ) ) {
-                  lane = 1; // Back to center.
+              if ( lane != 1 ) { 
+                if ( ( lane == 0 && !car_right ) || ( lane == 2 && !car_left ) ) {
+                  lane = 1; // if we are not in the center lane change back to middle lane
                 }
               }
               if ( ref_vel < MAX_SPEED ) {
