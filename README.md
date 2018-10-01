@@ -100,41 +100,11 @@ using the following settings:
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
-## Project Instructions and Rubric
 
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
+## Reflection
 
+The code provided in the Project Q&A was already enough to get the car going, following a path, avoid exceeding the maximum acceleration and avoiding hitting other cars. I upgraded that code to get the car to change lanes if the sensors detect an obstacle in our way, like a slow moving car. To do a safe lane change the car has to check the available sensor data to be certain, that it is safe to change lanes, which means there can't be any cars driving in our desired path.
 
-## Call for IDE Profiles Pull Requests
+Using the sensor data the car can determine, if there is another car in a given perimeter, which lane it is in, where it will likely be in the near future and most importantly the probable distance to our car. By determining these points, the car can make a decision to stay in the lane, or change to an adjacent lane, if it is more efficient.
 
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
+Another important aspect is the trajectory planning. The calculation happens based on the current speed, the planned behaviour and the remaining waypoints of the preceding trajectory.
